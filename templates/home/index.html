@@ -1,0 +1,106 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A little guidance. A world of possibilities. Explore student support, counseling, and career guidance at TUP Cavite's Office of Guidance Services.">
+  <meta name="theme-color" content="#751c35">
+  <title>Office of Guidance Services · TUP Cavite</title>
+  <link rel="icon" href="{% static 'images/tup-seal.svg' %}" type="image/svg+xml">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/facebook-carousel.css' %}">
+  <script src="{% static 'js/home.js' %}" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="university-strip"><div class="container strip-inner"><span>TECHNOLOGICAL UNIVERSITY OF THE PHILIPPINES · CAVITE</span><a href="https://www.tupcavite.edu.ph/" target="_blank" rel="noopener noreferrer">University website <span aria-hidden="true">↗</span></a></div></div>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#home" aria-label="TUP Cavite Office of Guidance Services home">
+        <img src="{% static 'images/tup-seal.svg' %}" alt="TUP seal" width="54" height="54">
+        <span><strong>Office of Guidance Services</strong><small>TUP CAVITE</small></span>
+      </a>
+      <nav id="main-nav" class="portal-nav" aria-label="Main navigation">
+        <a class="button button-small portal-link" href="{% if portal_url %}{{ portal_url }}{% else %}#portal-fallback{% endif %}" {% if not portal_url %}data-portal-notice{% endif %}>Access Portal <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 4h6v16h-6M4 12h11m-4-4 4 4-4 4"/></svg></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> HERE FOR YOU. EVERY STEP.</p>
+          <h1 id="hero-title">A little guidance.<br>A world of<br><em>possibilities.</em><svg class="title-spark" aria-hidden="true" viewBox="0 0 54 54"><path d="M27 2v15m0 20v15M2 27h15m20 0h15M9 9l11 11m14 14 11 11M9 45l11-11m14-14L45 9"/></svg></h1>
+          <p class="hero-description">You don’t have to figure it all out alone. Find the support, understanding, and encouragement you need to grow—at TUP Cavite and beyond.</p>
+          <div class="hero-actions"><a class="button" href="#services">Discover our services <span aria-hidden="true">↗</span></a><a class="text-link" href="#contact">Let’s talk <span aria-hidden="true">→</span></a></div>
+          <div class="hero-note"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3 4 6v5c0 5 8 10 8 10s8-5 8-10V6zM8 12l3 3 5-6"/></svg><span>A welcoming space. A listening ear. A place to grow.</span></div>
+        </div>
+        <section class="updates-carousel" aria-roledescription="carousel" aria-labelledby="updates-title" data-post-carousel>
+          <div class="updates-header"><div><p class="eyebrow">FROM OUR COMMUNITY</p><h2 id="updates-title">News &amp; <em>updates.</em></h2></div><span class="facebook-mark" aria-label="Facebook">f</span></div>
+          <div class="updates-slides">
+            {% for post in facebook_posts %}
+            <article class="updates-slide" id="facebook-post-{{ forloop.counter }}" aria-roledescription="slide" aria-label="{{ forloop.counter }} of {{ facebook_posts|length }}: {{ post.title }}" {% if not forloop.first %}hidden{% endif %}>
+              <div class="facebook-viewport">
+                <iframe title="Facebook post: {{ post.title }}" {% if forloop.first %}src="{{ post.embed_url }}"{% endif %} data-embed-url="{{ post.embed_url }}" width="500" height="500" allow="encrypted-media; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+              </div>
+              <a class="facebook-post-link" href="{{ post.url }}" target="_blank" rel="noopener noreferrer">Open this post on Facebook <span aria-hidden="true">↗</span></a>
+            </article>
+            {% endfor %}
+          </div>
+          <div class="carousel-controls" hidden>
+            <button class="carousel-arrow" type="button" data-carousel-previous aria-label="Previous Facebook post"><span aria-hidden="true">←</span></button>
+            <div class="carousel-pagination" role="group" aria-label="Choose a Facebook post">
+              {% for post in facebook_posts %}<button class="carousel-dot" type="button" data-carousel-index="{{ forloop.counter0 }}" aria-label="Show post {{ forloop.counter }}: {{ post.title }}" aria-controls="facebook-post-{{ forloop.counter }}" {% if forloop.first %}aria-current="true"{% endif %}></button>{% endfor %}
+            </div>
+            <span class="carousel-position" aria-live="polite" aria-atomic="true">Post <span data-carousel-position>1</span> of {{ facebook_posts|length }}</span>
+            <button class="carousel-arrow" type="button" data-carousel-next aria-label="Next Facebook post"><span aria-hidden="true">→</span></button>
+          </div>
+          <p class="embed-help">Can’t see an update? Open the post directly on Facebook.</p>
+          <noscript><ul class="updates-noscript">{% for post in facebook_posts %}<li><a href="{{ post.url }}" target="_blank" rel="noopener noreferrer">{{ post.title }} ↗</a></li>{% endfor %}</ul></noscript>
+        </section>
+      </div>
+      <div class="container hero-bottom"><span>ROOTED IN CARE. GROWING WITH YOU.</span><a href="#about" aria-label="Scroll to about OGS">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a></div>
+    </section>
+
+    <div class="values-ribbon" aria-label="Our values"><div class="container"><span>A space to feel heard</span><i aria-hidden="true">✳</i><span>Support without judgment</span><i aria-hidden="true">✳</i><span>Growth at your own pace</span><i aria-hidden="true">✳</i><span>Guidance for what’s next</span></div></div>
+
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div class="about-heading"><p class="eyebrow">A LITTLE ABOUT US</p><h2 id="about-title">Behind every student,<br>there’s a story.<br><em>We’re here for yours.</em></h2><div class="about-seal"><img src="{% static 'images/tup-seal.svg' %}" width="48" height="48" alt=""><span>Office of Guidance Services<br><strong>TUP Cavite</strong></span></div></div>
+        <div class="about-copy"><p class="large-copy">College is a time of discovery. And sometimes, a little support makes all the difference.</p><p>The Office of Guidance Services supports the intellectual, social, emotional, and personal growth of the TUP Cavite community. We help students understand themselves, navigate challenges, and make informed choices about their future.</p><p>Whether you have a question, a goal, or something on your mind, there’s a place for you here.</p><a class="text-link" href="https://www.tupcavite.edu.ph/office/ogs" target="_blank" rel="noopener noreferrer">Meet your guidance office <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
+
+    <section class="section services" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">SUPPORT THAT MEETS YOU WHERE YOU ARE</p><h2 id="services-title">How can we <em>help you?</em></h2></div><p>Small steps. Meaningful conversations.<br>Support for every part of your journey.</p></div>
+        <div class="service-grid">
+          <article class="service-card"><div class="service-top"><span class="service-icon"><svg aria-hidden="true" viewBox="0 0 32 32"><path d="M26 15a10 10 0 0 1-10 10h-5l-6 4v-9a10 10 0 1 1 21-5Z"/><path d="M11 14c0-5 5-4 5-1 0-3 5-4 5 1 0 3-5 6-5 6s-5-3-5-6Z"/></svg></span><span class="service-number">01</span></div><h3>Counseling & support</h3><p>Talk through personal, social, or academic concerns in a supportive space with someone who listens.</p><a href="#contact" class="service-link">Let’s start a conversation <span aria-hidden="true">↗</span></a></article>
+          <article class="service-card"><div class="service-top"><span class="service-icon"><svg aria-hidden="true" viewBox="0 0 32 32"><path d="M4 10h24v17H4zM11 10V5h10v5M4 17c8 5 16 5 24 0M13 17h6v6h-6z"/></svg></span><span class="service-number">02</span></div><h3>Career guidance</h3><p>Explore your interests, discover your strengths, and find direction for your next chapter.</p><a href="#contact" class="service-link">Explore your possibilities <span aria-hidden="true">↗</span></a></article>
+          <article class="service-card"><div class="service-top"><span class="service-icon"><svg aria-hidden="true" viewBox="0 0 32 32"><path d="M11 6H6v23h20V6h-5M11 3h10v6H11zM11 15l3 3 7-6M11 24h10"/></svg></span><span class="service-number">03</span></div><h3>Appraisal & inventory</h3><p>Get to know yourself better through assessments that help you understand your abilities and needs.</p><a href="#contact" class="service-link">Discover more about you <span aria-hidden="true">↗</span></a></article>
+        </div>
+        <div class="services-footer"><span>Not sure where to begin? That’s okay. We’ll help you take the first step.</span><a class="text-link" href="#contact">Reach out to us <span aria-hidden="true">→</span></a></div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="container contact-panel">
+        <div class="contact-intro"><p class="eyebrow">YOUR NEXT STEP STARTS HERE</p><h2 id="contact-title">You belong here.<br><em>Let’s grow together.</em></h2><p>A question, a concern, or just a need to talk.<br>We’re here to help you find your way.</p><a class="button button-light" href="https://www.tupcavite.edu.ph/contact" target="_blank" rel="noopener noreferrer">Get in touch <span aria-hidden="true">↗</span></a></div>
+        <div class="contact-details"><div><span class="contact-label">COME SAY HELLO</span><h3>Office of Guidance Services</h3><p>Technological University of the Philippines – Cavite<br>Salawag, Dasmariñas City, Cavite</p></div><div><span class="contact-label">OFFICE HOURS</span><p>Monday–Friday <span class="hours">8:00 AM–5:00 PM</span><br>Closed on weekends</p></div><a href="https://www.tupcavite.edu.ph/office/ogs" target="_blank" rel="noopener noreferrer">View official office information <span aria-hidden="true">↗</span></a></div>
+        <span class="contact-flower" aria-hidden="true">✳</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-main"><a class="brand" href="#home"><img src="{% static 'images/tup-seal.svg' %}" alt="TUP seal" width="44" height="44"><span><strong>Office of Guidance Services</strong><small>TUP CAVITE</small></span></a><p>Guidance. Growth. Possibilities.</p><a class="back-top" href="#home">Back to top <span aria-hidden="true">↑</span></a></div><div class="container footer-bottom"><span>© {% now "Y" %} TUP Cavite · Office of Guidance Services</span><span>Made for the journey ahead.</span></div></footer>
+
+  {% if not portal_url %}
+  <dialog id="portal-notice" aria-labelledby="portal-title" aria-describedby="portal-description">
+    <button class="dialog-close" type="button" data-close-dialog aria-label="Close portal notice">×</button><p class="eyebrow">TUP CAVITE · OGS</p><h2 id="portal-title">Your next step,<br><em>coming soon.</em></h2><p id="portal-description">The online portal isn’t connected yet. You can still reach the Office of Guidance Services through the university’s official channels.</p><a class="button" href="https://www.tupcavite.edu.ph/office/ogs" target="_blank" rel="noopener noreferrer">Visit the guidance office <span aria-hidden="true">↗</span></a><button class="text-link dialog-back" type="button" data-close-dialog>Back to the homepage</button>
+  </dialog>
+  <noscript><aside class="portal-fallback" id="portal-fallback">The online portal isn’t connected yet. <a href="https://www.tupcavite.edu.ph/office/ogs">Visit the official guidance office page for assistance.</a></aside></noscript>
+  {% endif %}
+</body>
+</html>
