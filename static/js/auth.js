@@ -1,0 +1,9 @@
+document.querySelectorAll('[data-password-toggle]').forEach(button => {
+  button.addEventListener('click', () => {
+    const field = document.getElementById(button.getAttribute('aria-controls'));
+    const show = field.type === 'password';
+    field.type = show ? 'text' : 'password';
+    button.setAttribute('aria-pressed', String(show));
+    button.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  });
+});

@@ -1,0 +1,14 @@
+{% extends 'registration/auth_base.html' %}
+{% load icons %}
+{% block title %}Staff portal{% endblock %}
+{% block content %}
+<section class="login-card portal-card" aria-labelledby="portal-title">
+  <div class="portal-check">{% icon 'shield-check' %}</div>
+  <p class="eyebrow">OGS STAFF PORTAL</p>
+  <h1 id="portal-title">Welcome back,<br><em>{{ user.first_name|default:user.username }}.</em></h1>
+  <p class="login-description">You’re signed in with your staff account.</p>
+  <div class="account-details"><span>Signed in as</span><strong>{{ user.username }}</strong></div>
+  <a class="button login-submit" href="{% url 'home' %}">Go to homepage {% icon 'arrow-right' %}</a>
+  <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="login-back sign-out" type="submit">{% icon 'log-out' %}Sign out</button></form>
+</section>
+{% endblock %}

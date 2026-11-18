@@ -1,18 +1,3 @@
-const notice = document.querySelector('#portal-notice');
-document.querySelectorAll('[data-portal-notice]').forEach(link => {
-  link.addEventListener('click', event => {
-    event.preventDefault();
-    notice.showModal();
-  });
-});
-document.querySelectorAll('[data-close-dialog]').forEach(button => {
-  button.addEventListener('click', () => notice.close());
-});
-notice?.addEventListener('click', event => {
-  const box = notice.getBoundingClientRect();
-  if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) notice.close();
-});
-
 // Manual navigation keeps posts still while someone reads or uses the embed.
 document.querySelectorAll('[data-post-carousel]').forEach(carousel => {
   const slides = [...carousel.querySelectorAll('.updates-slide')];

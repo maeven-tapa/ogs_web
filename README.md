@@ -1,6 +1,6 @@
 # TUP Cavite · Office of Guidance Services
 
-A single-page Django website with TUP branding, a responsive navigation bar, service information, and a configurable **Access Portal** button. No accounts, booking system, or other application pages are included.
+A Django homepage for TUP Cavite's Office of Guidance Services, with a Facebook post carousel and an **Access Portal** button leading to a SIBOL-inspired staff login page.
 
 ## Run locally (PowerShell)
 
@@ -8,21 +8,18 @@ A single-page Django website with TUP branding, a responsive navigation bar, ser
 cd C:\Users\maeve\AndroidStudioProjects\OGSSERVICES\website\ogs_web
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe manage.py migrate
+.\.venv\Scripts\python.exe manage.py createsuperuser
 .\.venv\Scripts\python.exe manage.py runserver
 ```
 
-Open http://127.0.0.1:8000/. The homepage does not need a database or migrations.
+Open http://127.0.0.1:8000/. **Access Portal** opens `/login/`. Local staff accounts and sessions use SQLite, which is excluded from Git.
 
-## Connect the portal
+## Staff sign-in
 
-Set the destination before starting Django:
+The login form uses Django's authentication, password hashing, CSRF protection, and sessions. Only active accounts with `is_staff=True` may sign in. `createsuperuser` creates an account with staff access; there are no shared default credentials. Successful sign-in opens a small authenticated account page at `/portal/`. Sign-out requires POST.
 
-```powershell
-$env:OGS_PORTAL_URL = 'https://your-actual-ogs-portal.example/'
-python manage.py runserver
-```
-
-When unset, **Access Portal** opens a notice explaining that the portal is not yet connected and links to the official OGS page. It does not pretend to sign anyone in. `.env.example` documents environment variables; Django does not automatically load that file.
+`.env.example` documents process environment variables; Django does not automatically load the file. The former `OGS_PORTAL_URL` setting is no longer used: the navigation always opens this site's login page.
 
 ## Checks
 
@@ -38,7 +35,7 @@ Create a **Web Service** from this repository with the **Python 3** runtime. Lea
 **Build command**
 
 ```sh
-pip install -r requirements.txt && python manage.py collectstatic --noinput
+pip install -r requirements.txt && python build.py
 ```
 
 **Start command**
@@ -47,13 +44,16 @@ pip install -r requirements.txt && python manage.py collectstatic --noinput
 gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
 ```
 
-Set `DJANGO_DEBUG=false` and generate a random `DJANGO_SECRET_KEY` in Render's Environment settings. The Render service hostname is automatically allowed through `RENDER_EXTERNAL_HOSTNAME`. Set `DJANGO_ALLOWED_HOSTS` if you also use a custom domain. Set `OGS_PORTAL_URL` when your portal destination is ready.
+Set `DJANGO_DEBUG=false` and generate a random `DJANGO_SECRET_KEY` in Render's Environment settings. The Render service hostname is automatically allowed through `RENDER_EXTERNAL_HOSTNAME`. Set `DJANGO_ALLOWED_HOSTS` if you also use a custom domain.
 
-Alternatively, create a Render **Blueprint** from the included `render.yaml`; it configures both commands and generates the secret key. WhiteNoise serves the collected CSS, JavaScript, and images in production. This homepage does not require a database or a migration command.
+For working staff accounts, add a persistent PostgreSQL `DATABASE_URL` to the Render web service. The build script automatically runs migrations when that variable exists. After deployment, run `python manage.py createsuperuser` in a shell connected to that database. If your Render plan does not provide a shell, run the command locally with the database's external URL in `DATABASE_URL`; keep that URL private. Staff sign-in stays disabled on Render until a persistent database is configured; the public homepage and login design remain available. Render's temporary local disk is never used for production staff accounts.
+
+Alternatively, create a Render **Blueprint** from `render.yaml`; it configures both commands and generates the secret key. Supply `DATABASE_URL` separately to enable staff sign-in. WhiteNoise serves the collected assets in production.
 
 ## Content and assets
 
 - The existing TUP seal was copied from `OGSSERVICES/branding/tup-seal.svg`.
+- Icons are a bundled subset of Lucide Static 1.74.0, loaded in the initial HTML as an SVG sprite. They do not need an external CDN, JavaScript, or emoji fonts. The upstream license is included in `static/icons/LICENSE`.
 - The hero displays a manually controlled carousel of the three selected Facebook posts, inspired by the embedded Facebook updates on [UniFAST](https://unifast.gov.ph/). Edit `home/posts.py` to change the list. Permanent post URLs were resolved from the supplied Facebook share links.
 - Only the selected post is loaded initially; other embeds load on first selection. Previous/next buttons, pagination dots, and keyboard navigation (arrow keys, Home, End while using the controls) are supported. No autoplay interrupts reading. Each post includes a direct Facebook link, and all three links remain available without JavaScript.
 - Facebook supplies the embedded content. Public-post availability, Facebook restrictions, browser privacy settings, and network access can affect rendering; the website cannot inspect or reliably detect errors inside a cross-origin Facebook frame.

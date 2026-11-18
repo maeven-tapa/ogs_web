@@ -3,7 +3,7 @@ services:
     name: tup-cavite-ogs
     runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    buildCommand: pip install -r requirements.txt && python build.py
     startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
     healthCheckPath: /
     envVars:

@@ -1,0 +1,28 @@
+{% load static icons %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#870e29">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}Staff sign in{% endblock %} · TUP Cavite OGS</title>
+  <link rel="icon" href="{% static 'images/tup-seal.svg' %}" type="image/svg+xml">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+  <script src="{% static 'js/auth.js' %}" defer></script>
+</head>
+<body class="auth-page">
+  {% include 'includes/icon-sprite.svg' %}
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="auth-header">
+    <a class="brand" href="{% url 'home' %}" aria-label="TUP Cavite Office of Guidance Services home"><img src="{% static 'images/tup-seal.svg' %}" width="49" height="49" alt="TUP seal"><span><strong>Office of Guidance Services</strong><small>TUP CAVITE</small></span></a>
+  </header>
+  <main class="auth-main" id="main">
+    <div class="auth-rings" aria-hidden="true"></div>
+    {% icon 'sparkle' 'auth-background-spark' %}
+    <div class="auth-content">{% block content %}{% endblock %}<p class="auth-footer">© {% now 'Y' %} TUP Cavite · Office of Guidance Services</p></div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,10 @@
+.icon-sprite{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+.icon{display:inline-block;width:20px;height:20px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em}
+.button .icon,.text-link .icon,.service-link .icon,.facebook-post-link .icon{width:18px;height:18px}
+.strip-inner .icon{width:11px;height:11px;margin-left:8px}.hero-note .icon{width:17px;height:17px}
+.icon.title-spark{width:37px;height:37px;stroke-width:1}
+.values-ribbon .container>span{display:flex;align-items:center;gap:10px}.values-ribbon .ribbon-icon{width:17px;height:17px;color:var(--maroon)}
+.values-ribbon span:before{content:none}
+.icon.contact-flower{width:330px;height:330px;stroke-width:.8;right:-70px;bottom:-110px;pointer-events:none;color:#ffffff0c}
+.carousel-arrow .icon{width:17px;height:17px}.back-top .icon{width:16px;height:16px}.hero-bottom .icon{width:16px;height:16px}
+@media(max-width:650px){.icon.title-spark{width:29px;height:29px}.icon.contact-flower{width:260px;height:260px;right:-60px;bottom:5px}.values-ribbon .container>span{gap:7px}.values-ribbon .ribbon-icon{width:12px;height:12px}}

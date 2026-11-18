@@ -1,0 +1,26 @@
+{% extends 'registration/auth_base.html' %}
+{% load icons %}
+{% block content %}
+<section class="login-card" aria-labelledby="login-title">
+  <header class="login-heading">
+    <div class="login-ornament" aria-hidden="true">{% icon 'sparkle' %}{% icon 'sparkles' 'ornament-center' %}{% icon 'sparkle' %}</div>
+    <p class="eyebrow">STAFF SIGN IN</p>
+    <h1 id="login-title">A little guidance.<br><em>A world of care.</em></h1>
+    <p class="login-description">Welcome back. Sign in to your OGS staff portal.</p>
+  </header>
+  {% if not login_enabled %}<p class="login-notice" role="status">Staff sign-in will be available shortly. Please contact the OGS administrator for access.</p>{% endif %}
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+    {% if form.non_field_errors %}<div class="login-errors" role="alert">{% icon 'circle-alert' %}<div>{{ form.non_field_errors }}</div></div>{% endif %}
+    <fieldset {% if not login_enabled %}disabled{% endif %}>
+      <div class="login-field"><label for="{{ form.username.id_for_label }}">Username</label><div class="input-wrap">{% icon 'user-round' %}{{ form.username }}</div>{% for error in form.username.errors %}<p class="field-error" role="alert">{{ error }}</p>{% endfor %}</div>
+      <div class="login-field"><label for="{{ form.password.id_for_label }}">Password</label><div class="input-wrap password-wrap">{% icon 'lock-keyhole' %}{{ form.password }}<button class="password-toggle" type="button" aria-label="Show password" aria-controls="{{ form.password.id_for_label }}" aria-pressed="false" data-password-toggle>{% icon 'eye' 'show-password-icon' %}{% icon 'eye-off' 'hide-password-icon' %}</button></div>{% for error in form.password.errors %}<p class="field-error" role="alert">{{ error }}</p>{% endfor %}</div>
+      <button class="button login-submit" type="submit">Sign in to my portal {% icon 'log-in' %}</button>
+    </fieldset>
+  </form>
+  <p class="login-help">Need help signing in? <a href="{% url 'home' %}#contact">Contact OGS</a></p>
+  <a class="login-back" href="{% url 'home' %}">{% icon 'arrow-left' %}Back to homepage</a>
+</section>
+<p class="auth-reassurance">{% icon 'shield-check' %}For authorized Office of Guidance Services staff.</p>
+{% endblock %}
